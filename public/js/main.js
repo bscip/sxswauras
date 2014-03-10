@@ -150,6 +150,7 @@ require(
   vent.on('selector:info', function() {
     var aidata = {};
     OA.ArtistInfo.fetchByOaArtistId(cur_artist_id, function(ai) {
+      console.dir(ai.asObject());
       aidata.bio = ai.bio();
       aidata.styles = ai.styleTags().media[0].data.tags;
       aidata.profile_image_src = ai.profilePhoto().last().url();
@@ -197,6 +198,65 @@ require(
         .particles()
         .filterByMedia(function(m) { return m.mediaType() == 'embed' || m.mediaType() == 'video'; })
         .each(function(p) {
+          videos.add({url: p.media().first().url()});
+      });
+      videosView.render();
+    });
+  });
+
+  // SELECTOR - LINKS
+  vent.on('selector:links', function() {
+    links = new Links();
+    linksView = new LinksView({
+      collection: links
+    });
+    contentLayout.particles.show(linksView);
+
+    $.ajax({
+      type: 'GET',
+      url: 'http://api.openaura.com/v1/source/artists/'+cur_artist_id,
+      data: {id_type: 'oa:artist_id', api_key:"brian-test"},
+      success: function(data, textStatus) {
+        if (textStatus == 'success') {
+          data.sources.forEach(function(s,i) {
+            if (s.provider_name != 'MusicBrainz') {
+              links.add({
+                provider_name: s.provider_name,
+                provider_id: s.oa_provider_id,
+                url: s.url,
+                handle: s.handle
+              });
+            }
+          });
+          linksView.render();
+        }
+      }
+    });
+  });
+
+  // SELECTOR - SHOWS
+  vent.on('selector:shows', function() {
+    var url = '',
+        showdata;
+
+    shows = new Shows();
+    showsView = new ShowsView({
+      collection: shows
+    });
+    contentLayout.particles.show(showsView);
+
+    $.ajax({
+      type: 'GET',
+      url: 'http://api.openaura.com/v1/info/artists/'+cur_artist_id,
+      data: {id_type: 'oa:artist_id', api_key:"brian-test"},
+      success: function(data, textStatus) {
+        if (textStatus == 'success') {
+          url += 'http://api.songkick.com/api/3.0/artists/mbid:'+data.musicbrainz_gid;
+          url += '/calendar.json?apikey=4OQeN6Dh96iXOJyk';
+          url += '&order=asc&page=1&per_page=50';
+          url += '&jsoncallback=?';
+          
+          $.getJSON(url, function(data) { 
             if (_.has(data.resultsPage.results, 'event')) {
               data.resultsPage.results.event.forEach(function(event) {
                 if (event.location.city == 'Austin, TX, US') {
