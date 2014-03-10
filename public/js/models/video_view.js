@@ -15,7 +15,7 @@ define('models/video_view', ['marionette', 'vent'], function(Marionette, vent) {
     className: 'video',
     render: function() {
       var template = _.template($('#temp-video').html(), this.model.attributes);
-      this.$el.html( template );
+      this.$el.html( '<div class="video_container">'+template+'</div>' );
     }
   });
 });
