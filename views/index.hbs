@@ -1,0 +1,76 @@
+<html>
+  <head>
+    <title>{{title}}</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+  </head>
+  <body>
+    <div id="main-header" class="container-fluid">
+      <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-8 col-md-offset-2">
+          <h1>{{title}}</h1>
+        </div>
+      </div>
+    </div>
+    <div id="main-container" class="container-fluid">
+      <div class="row">
+        <div id="search-container" class="col-xs-12 col-sm-12 col-md-8 col-md-offset-2">
+          <div class="row">
+            <div class="col-xs-4 col-sm-4 col-md-4 col-xs-offset-4 col-sm-offset-4 col-md-offset-4">
+              <input type="text" id="search_input" placeholder="Search for an Artist!"/>
+              <span class="glyphicon glyphicon-search"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div id="content-container" class="col-xs-12 col-sm-12 col-md-8 col-md-offset-2">
+        </div>
+      </div>
+    </div>
+    <div id="main-footer" class="container-fluid">
+    </div>
+
+    <script type="text/template" id="temp-search_result">
+      <%= name %>
+    </script>
+    <script type="text/template" id="temp-layout">
+      <div id="selectors"></div>
+      <div id="particles"></div>
+    </script>
+    <script type="text/template" id="temp-selector">
+      <%= name %>
+    </script>
+    <script type="text/template" id="temp-image">
+      <div class="row">
+        <div class="col-xs-10 col-sm-10 col-md-10 col-xs-offset-1 col-sm-offset-1 col-md-offset-1">
+          <img class="image_display" src="<%= url %>"/>
+        </div>
+      </div>
+    </script>
+    <script type="text/template" id="temp-video">
+    </script>
+    <script type="text/template" id="temp-artist_info">
+      <div class="row">
+        <div class="col-xs-10 col-sm-10 col-md-10 col-xs-offset-1 col-sm-offset-1 col-md-offset-1">
+          <img src="<%= profile_image_src %>"/>
+          <%= bio %>
+        </div>
+      </div>
+    </script>
+    <script type="text/template" id="temp-link">
+      <a href="<%= url %>">
+        <span class="link_provider"><%= provider_name %> </span>  
+      </a>
+      (<span class="link_handle"><%= handle %></span>)
+    </script>
+    <script type="text/template" id="temp-show">
+      <%= title %>
+    </script>
+
+    <script data-main="js/main" src="js/lib/require.js"></script>
+    <script data-main="js/main" src="js/lib/oa-all.min.js"></script>
+  </body>
+<html>
